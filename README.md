@@ -33,13 +33,19 @@ The "official" OCaml Docker images are the ones on [ocaml/opam](https://hub.dock
 
 ## Static linking
 
+### Overview
+
 The consensus seems to be something like this:
 
 1. Use a Docker image with musl instead of glibc (e.g., Alpine Linux).
 2. Add the proper flags to your Dune file (or directly to the OCaml compiler).
 3. Compile your program inside that Docker container.
 
-Blog posts
+One thing to note.  You will see some blogs say you need `-ccopt -static`, or `-cclib -static-pie`.  There are a couple of variations.  But when compiling on Alpine 3.11, those will still give a dynamically linked exe according to `file` command.  According to `ldd` it is static, and it does work across linux OSes, however.
+
+If you want it to be *static*, then you will need to also pass in `-no-pie`.  There is a lot written on `PIE` vs `no-PIE` binaries, and I encourage you to look at the security implications of `-no-pie`.  However, you will get a true static.
+
+### Blog posts
 
 * [Creating Static Linux Binaries in OCaml](http://rgrinberg.com/posts/static-binaries-tutorial/)
   * Blog post by Rudi Grinberg
@@ -50,11 +56,11 @@ Blog posts
   * Also has info for MacOS.
 * [How to Statically Link OCaml Programs](https://www.systutorials.com/how-to-statically-link-ocaml-programs/)
 
-[OCaml Discuss](https://discuss.ocaml.org/) threads
+### [OCaml Discuss](https://discuss.ocaml.org/) threads
 
 * [Statically Link](https://discuss.ocaml.org/t/statically-link/1464)
 * [Cross Platform (MacOSX/*nix) static linking](https://discuss.ocaml.org/t/cross-platform-macosx-nix-static-linking/2528)
 
-GitHub issues
+### GitHub issues
 
   * [Dune: How to create a statically linked library](https://github.com/ocaml/dune/issues/1904)
