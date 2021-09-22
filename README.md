@@ -2,6 +2,15 @@
 
 A mishmash of OCaml resources and answers to some (un)common OCaml questions.
 
+* [License](#license)
+* [Docker & GitHub Actions](#docker--github-actions)
+* [Static linking](#static-linking)
+  * [Overview](#overview)
+  * [Blog posts](#blog-posts)
+  * [OCaml Discuss](#ocaml-discuss)
+  * [GitHub issues](#github-issues)
+* [Row polymorphism](#row-polymorphism)
+
 ## License
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
