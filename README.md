@@ -1,6 +1,6 @@
 # OCaml Resources
 
-Another curated list of OCaml resources.
+A mishmash of OCaml resources and answers to some (un)common OCaml questions.
 
 ## License
 
@@ -64,3 +64,9 @@ If you want it to be *static*, then you will need to also pass in `-no-pie`.  Th
 ### GitHub issues
 
   * [Dune: How to create a statically linked library](https://github.com/ocaml/dune/issues/1904)
+
+## Row polymorphism
+
+From a StackOverflow answer about [why OCaml records don't support row polymorphism](https://stackoverflow.com/a/15241144).
+
+> The primary problem with using either structural subtyping or row polymorphism for all records is that it requires a significantly more involved runtime implementation, and consequently, also is more expensive. Where simple records can trivially be translated into plain tuples, with field access being just indexing, structural subtyping or row polymorphism require the ability to transparently "slice" an object, i.e. view it under a supertype with random fields removed. In general, this requires either field lookup by hashing (such as Ocaml's objects), or evidence passing techniques, where the index of every field used by a function or any of its callees has to be passed as a hidden argument in addition to the actual record (that's what SML# is doing, for example).
