@@ -4,12 +4,16 @@ A mishmash of OCaml resources and answers to some (un)common OCaml questions.
 
 * [License](#license)
 * [Docker & GitHub Actions](#docker--github-actions)
+* [Dune](#dune)
+* [Recursive modules](#recursive-modules)
+  * [OCaml Discuss](#ocaml-discuss)
+* [Row polymorphism](#row-polymorphism)
 * [Static linking](#static-linking)
   * [Overview](#overview)
   * [Blog posts](#blog-posts)
-  * [OCaml Discuss](#ocaml-discuss)
+  * [OCaml Discuss](#ocaml-discuss-1)
   * [GitHub issues](#github-issues)
-* [Row polymorphism](#row-polymorphism)
+* [Type declarations, interfaces, etc.](#type-declarations-interfaces-etc)
 
 ## License
 
@@ -39,6 +43,23 @@ The "official" OCaml Docker images are the ones on [ocaml/opam](https://hub.dock
 * [Lightweight OCaml Docker Images with Multi-Stage Builds](https://discuss.ocaml.org/t/lightweight-ocaml-docker-images-with-multi-stage-builds/804)
   * Announcement post for [this article](https://medium.com/@bobbypriambodo/lightweight-ocaml-docker-images-with-multi-stage-builds-f7a060c7fce4)
   * Also discusses static linking [here](https://discuss.ocaml.org/t/lightweight-ocaml-docker-images-with-multi-stage-builds/804/3)
+
+## Dune
+
+* Disabling warnings in Dune: https://stackoverflow.com/a/57120928
+
+
+## Recursive modules
+
+### [OCaml Discuss](https://discuss.ocaml.org/) threads
+
+* [How to deal with “recursive” modules?](https://discuss.ocaml.org/t/how-to-deal-with-recursive-modules/898)
+
+## Row polymorphism
+
+From a StackOverflow answer about [why OCaml records don't support row polymorphism](https://stackoverflow.com/a/15241144).
+
+> The primary problem with using either structural subtyping or row polymorphism for all records is that it requires a significantly more involved runtime implementation, and consequently, also is more expensive. Where simple records can trivially be translated into plain tuples, with field access being just indexing, structural subtyping or row polymorphism require the ability to transparently "slice" an object, i.e. view it under a supertype with random fields removed. In general, this requires either field lookup by hashing (such as Ocaml's objects), or evidence passing techniques, where the index of every field used by a function or any of its callees has to be passed as a hidden argument in addition to the actual record (that's what SML# is doing, for example).
 
 ## Static linking
 
@@ -74,8 +95,23 @@ If you want it to be *static*, then you will need to also pass in `-no-pie`.  Th
 
   * [Dune: How to create a statically linked library](https://github.com/ocaml/dune/issues/1904)
 
-## Row polymorphism
 
-From a StackOverflow answer about [why OCaml records don't support row polymorphism](https://stackoverflow.com/a/15241144).
+## Type declarations, interfaces, etc.
 
-> The primary problem with using either structural subtyping or row polymorphism for all records is that it requires a significantly more involved runtime implementation, and consequently, also is more expensive. Where simple records can trivially be translated into plain tuples, with field access being just indexing, structural subtyping or row polymorphism require the ability to transparently "slice" an object, i.e. view it under a supertype with random fields removed. In general, this requires either field lookup by hashing (such as Ocaml's objects), or evidence passing techniques, where the index of every field used by a function or any of its callees has to be passed as a hidden argument in addition to the actual record (that's what SML# is doing, for example).
+* [Why do I need to repeat type declarations between interfaces and implementations (or how do I get around this)?](https://discuss.ocaml.org/t/why-do-i-need-to-repeat-type-declarations-between-interfaces-and-implementations-or-how-do-i-get-around-this/3350)
+* [Avoiding duplicated definitions in module implementation and interface](https://discuss.ocaml.org/t/avoiding-duplicated-definitions-in-module-implementation-and-interface/1546)
+  * Write types in `.mli` file and `include` where needed ([link](https://discuss.ocaml.org/t/avoiding-duplicated-definitions-in-module-implementation-and-interface/1546/3))
+  * Public types in their own `.ml` file ([link](https://discuss.ocaml.org/t/avoiding-duplicated-definitions-in-module-implementation-and-interface/1546/4))
+
+* [Simple top-down development in OCaml](https://blog.janestreet.com/simple-top-down-development-in-ocaml/)
+  * Explains a trick to avoid code duplication when writing interface first and implementation later.
+
+* Code duplication specifically with functors
+  * [Functors in OCaml: triple code duplication necessary?](https://stackoverflow.com/questions/22348341/functors-in-ocaml-triple-code-duplication-necessary)
+  * ["usual way to avoid writing out the module type twice is to define it in a separate ML file"]https://stackoverflow.com/a/22352773
+
+
+* This SO question has a lot of suggestions: [Redundancy in OCaml type declaration (ml/mli)](https://stackoverflow.com/questions/3238509/redundancy-in-ocaml-type-declaration-ml-mli)
+  * Have a module dedicated to type declarations and give it only an `.mli` ([link](https://stackoverflow.com/a/3268836))
+  * Use some preprocessor or code generator tool ([link](https://stackoverflow.com/a/3238702))
+  * Let `ocamlc` generate it for you: `ocamlc -i some.ml > some.mli` ([link](https://stackoverflow.com/a/3241147))
